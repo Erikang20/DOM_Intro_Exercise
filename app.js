@@ -1,58 +1,75 @@
-// console.log("Javascript is alive!");
-
-$(document).ready(function() {
-  event.preventDefault();
-
-  $("div#greeting").replaceWith("<div>Hello World</div>");
-  // alert("it works!")
-  $("li").css("background-color", "yellow");
-
-  $("div").add("img");
-  $("img").attr("src",
-    "http://49.media.tumblr.com/tumblr_m6qt1rjPSz1rxjzkho1_500.gif");
-  $(this).addClass("imagen");
-  $("#greeting").append("img");
+console.log("Javascript is alive!");
 
 
-  $("li").on("click", function() {
-    $("li").removeClass("selected");
-    $(this).addClass("selected");
+//1.Change the greeting
+
+window.onload = function() {
+  var greeting_div = document.getElementById("greeting");
+  document.getElementById('greeting').innerHTML = "Hello World!";
 
 
+  //2.Chage the backgroundColor of the <li> items
+  document.getElementById('essentials').style.backgroundColor = "yellow";
+
+
+  // 3.create and add image and set its src attribute
+  var img = document.createElement('img');
+  img.src = "http://49.media.tumblr.com/tumblr_m6qt1rjPSz1rxjzkho1_500.gif";
+  greeting_div.appendChild(img);
+
+  //4.get the elements in the <li> and add the class "selected" when clicked and
+  ///removed the class of the elements that has it
+
+  var list_items = document.querySelectorAll("li");
+  for (var i = list_items.length - 1; i >= 0; i--) {
+    list_items[i].addEventListener("click", selectItem);
+  }
+
+  document.querySelector("#reset").addEventListener("click",
+    resetButtonHandler);
+
+  // remove div when the #ghosting is moused over
+  document.querySelector("#ghosting").addEventListener("mouseover", function() {
+    this.remove();
   });
 
-  $("img").on("click", function(event) {
-    $(this).detach("img");
-    $("img").show(300);
-  });
+  ////Changes the widht of the div with double click
+  document.querySelector("#resize").addEventListener("dblclick", aFunction);
 
-  $("#ghosting").mouseover(function() {
-    $("#ghosting").detach("#ghosting");
+  function aFunction() {
+    document.getElementById("resize").style.width = "600px";
 
-  });
+  }
 
-  $("#resize").mouseover(function() {
-    $(this).width("40%");
-  });
+  function selectItem() {
+    var myArray = document.querySelector(".selected");
+    if (myArray) {
+      myArray.className = "";
+    }
 
-  $("#resize").mouseout(function() {
-    $(this).width("16%");
-  });
+    /////change the img when clicked
+    this.className = "selected";
+    document.querySelectorAll("img")[1].src = "./images/" + this.innerHTML +
+      ".jpeg";
 
-  $("#reset").click(function() {
-    $("#reset").find('li').removeAttr('selected');
-  });
+  }
 
-  // $("input").keyup(function() {
-  //   $(this).keyup(0);
-  alert("I HATE NUMBERZZZ");
+  function resetButtonHandler() {
+    var myArray = document.querySelector(".selected");
+    if (myArray) {
+      myArray.className = "";
+    }
+    document.querySelectorAll("img")[1].setAttribute("src",
+      "./images/panic.jpeg");
+  }
 
-  // var num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-  // for (var i = 0; i < num.length; i++) {
-  //   return num[i];
-  // }
+  var noDigits = function(e) {
+    if (e.keyCode >= 48 && e.keyCode <= 57) {
+      alert("I HATE NUMBERZZZ!");
+      var doubleWidth = function() {
+        this.style.width = '400px';
+      };
 
-  // });
-
-
-});
+    }
+  };
+};
